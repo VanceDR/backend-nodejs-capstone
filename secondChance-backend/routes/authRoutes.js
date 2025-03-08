@@ -84,7 +84,7 @@ router.post("/login", async (req, res) => {
     // Task 6: Create JWT authentication if passwords match with user._id as payload
     let payload = {
       user: {
-        id: theUser._id.toString(),
+        id: existingUser._id.toString(),
       },
     };
     const authtoken = jwt.sign(payload, JWT_SECRET);
@@ -122,6 +122,7 @@ router.put("/update", async (req, res) => {
     existingUser.updatedAt = new Date();
 
     // Task 6: Update the user credentials in the database
+    existingUser.firstName = req.body.name
     const updatedUser = await collection.findOneAndUpdate(
       { email },
       { $set: existingUser },
