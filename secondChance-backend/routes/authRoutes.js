@@ -11,7 +11,7 @@ dotenv.config()
 
 const logger = pino() // Create a Pino logger instance
 
-//Create JWT secret
+// Create JWT secret
 const JWT_SECRET = process.env.JWT_SECRET
 
 router.post('/register', async (req, res) => {
