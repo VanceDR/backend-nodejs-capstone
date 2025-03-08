@@ -56,8 +56,8 @@ router.post('/', upload.single('file'), async (req, res, next) => {
       secondChanceItem.id = (parseInt(item.id) + 1).toString()
     })
     // Step 3: task 5 - insert code here
-    const date_added = Math.floor(new Date().getTime() / 1000)
-    secondChanceItem.date_added = date_added
+    const dateAdded = Math.floor(new Date().getTime() / 1000)
+    secondChanceItem.date_added = dateAdded
 
     secondChanceItem = await collection.insertOne(secondChanceItem)
 
@@ -79,7 +79,7 @@ router.get('/:id', async (req, res, next) => {
     const secondChanceItem = await collection.findOne({ id: req.params.id })
     // Step 4: task 4 - insert code here
     if (!secondChanceItem) {
-      logger.error(`Item id:${id} not found`)
+      logger.error(`Item id:${req.params.id} not found`)
       return res.status(404).json({ error: 'Item not found' })
     }
     res.json(secondChanceItem)
@@ -97,7 +97,8 @@ router.put('/:id', async (req, res, next) => {
     // Step 5: task 2 - insert code here
     const collection = db.collection('secondChanceItems')
     // Step 5: task 3 - insert code here
-    let secondChanceItem = await collection.findOne({ id: req.params.id })
+    const id = req.params.id
+    const secondChanceItem = await collection.findOne({ id })
     if (!secondChanceItem) {
       logger.error(`Item id:${id} not found`)
       res.status(404).json({ error: 'Item not found' })
@@ -133,7 +134,7 @@ router.delete('/:id', async (req, res, next) => {
     // Step 6: task 3 - insert code here
     const secondChanceItem = await collection.findOne({ id: req.params.id })
     if (!secondChanceItem) {
-      logger.error(`Item id:${id} not found`)
+      logger.error(`Item id:${req.params.id} not found`)
       return res.status(404).json({ error: 'Item not found' })
     }
     // Step 6: task 4 - insert code here
