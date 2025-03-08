@@ -1,10 +1,11 @@
 require('dotenv').config()
 const MongoClient = require('mongodb').MongoClient
 const fs = require('fs')
+const path = require('path')
 
 // MongoDB connection URL with authentication options
-let url = `${process.env.MONGO_URL}`
-let filename = `${__dirname}/secondChanceItems.json`
+const url = process.env.MONGO_URL
+const filename = path.join(__dirname, 'secondChanceItems.json')
 const dbName = 'secondChance'
 const collectionName = 'secondChanceItems'
 
@@ -25,8 +26,8 @@ async function loadData() {
 
     // collection will be created if it does not exist
     const collection = db.collection(collectionName)
-    let cursor = await collection.find({})
-    let documents = await cursor.toArray()
+    const cursor = await collection.find({})
+    const documents = await cursor.toArray()
 
     if (documents.length === 0) {
       // Insert data into the collection
@@ -46,5 +47,5 @@ async function loadData() {
 loadData()
 
 module.exports = {
-  loadData,
+  loadData
 }
