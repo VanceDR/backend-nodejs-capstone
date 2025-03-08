@@ -1,23 +1,23 @@
 /*jshint esversion: 8 */
-const express = require("express")
+const express = require('express')
 const router = express.Router()
-const connectToDatabase = require("../models/db")
-const logger = require("../logger")
+const connectToDatabase = require('../models/db')
+const logger = require('../logger')
 // Search for gifts
-router.get("/", async (req, res, next) => {
-  logger.info("/ GET search called")
+router.get('/', async (req, res, next) => {
+  logger.info('/ GET search called')
   try {
     // Task 1: Connect to MongoDB using connectToDatabase database. Remember to use the await keyword and store the connection in `db`
     const db = await connectToDatabase()
 
-    const collection = db.collection("secondChanceItems")
+    const collection = db.collection('secondChanceItems')
 
     // Initialize the query object
     let query = {}
 
     // Add the name filter to the query if the name parameter is not empty
-    if (req.query.name && req.query.name.trim() != "") {
-      query.name = { $regex: req.query.name, $options: "i" } // Using regex for partial match, case-insensitive
+    if (req.query.name && req.query.name.trim() != '') {
+      query.name = { $regex: req.query.name, $options: 'i' } // Using regex for partial match, case-insensitive
     }
 
     // Task 3: Add other filters to the query
@@ -35,8 +35,8 @@ router.get("/", async (req, res, next) => {
     const secondChanceItems = await collection.find(query).toArray()
 
     if (secondChanceItems.length < 1) {
-      logger.error("No Items Matched the Query")
-      return res.status(404).json({ error: "No Items Matched the Query" })
+      logger.error('No Items Matched the Query')
+      return res.status(404).json({ error: 'No Items Matched the Query' })
     }
 
     res.json(secondChanceItems)
